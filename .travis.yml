@@ -1,7 +1,13 @@
 language: python
+sudo: false
+cache: pip
 python:
   - "2.7"
 # command to install dependencies
+before_install:
+  - python --version
+  - uname -a
+  - lsb_release -a
 install:
   - pip install pipenv
 # command to run tests

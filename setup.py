@@ -25,7 +25,7 @@ def read(*names, **kwargs):
 setup(
     name='pylicense-manager',
     version='1.0.0',
-    license='MIT license',
+    license='MIT',
     description='Python PYPI packages license manager',
     long_description='%s\n%s' % (
         re.compile('^.. start-badges.*^.. end-badges', re.M | re.S).sub('', read('README.rst')),
@@ -66,7 +66,7 @@ setup(
         # eg: 'keyword1', 'keyword2', 'keyword3',
     ],
     install_requires=[
-        # eg: 'aspectlib==1.1.1', 'six>=1.7',
+        'beautifulsoup4>=4.6.0', 'requests>=2.18.4', 'Jinja2>=2.10'
     ],
     extras_require={
         # eg:
