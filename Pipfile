@@ -13,3 +13,4 @@ name = "pypi"
 
 requests = "*"
 "beautifulsoup4" = "*"
+"jinja2" = "*"
