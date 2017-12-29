@@ -48,6 +48,9 @@ def request(method, request_url, params=None, data=None, custom_headers=None, st
                 raise Exception("Bad request")
             elif response.status_code == 404:
                 return {}
+            elif response.status_code == 403:
+                logger.info(response.text)
+                return {}
             else:
                 response.raise_for_status()
     except requests.exceptions.HTTPError as error:
