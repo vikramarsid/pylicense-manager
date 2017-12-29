@@ -4,13 +4,13 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 import io
-import re
 from glob import glob
+
+import re
 from os.path import basename
 from os.path import dirname
 from os.path import join
 from os.path import splitext
-
 from setuptools import find_packages
 from setuptools import setup
 
@@ -24,7 +24,7 @@ def read(*names, **kwargs):
 
 setup(
     name='pylicense-manager',
-    version='0.1.0',
+    version='1.0.0',
     license='MIT license',
     description='Python PYPI packages license manager',
     long_description='%s\n%s' % (
