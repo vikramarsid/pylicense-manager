@@ -164,7 +164,7 @@ class Manager(object):
             # Still, if not found generate license file
             if not found:
                 if license_name:
-                    license_content = self.generate_license(license_name, name, author, "2017")
+                    license_content = self.generate_license(license_name, name, author, "2018")
                     if license_content:
                         self._create_license_file(name, license_content)
 
@@ -178,7 +178,7 @@ class Manager(object):
             search_url = "https://api.github.com/search/repositories"
             query_params = {"q": str(repo_name)}
             search_results = utils.request("GET", search_url, params=query_params, custom_headers=self.custom_header)
-            if search_results["total_count"] > 0:
+            if "total_count" in search_results and search_results["total_count"] > 0:
                 # select search result with highest score. Default sorted based on score.
                 item = search_results["items"][0]
                 package = {
@@ -282,12 +282,17 @@ class Manager(object):
         # Fetch html content from home page url
         try:
             html_page = utils.request("GET", home_page_url, json_output=False, stream=True)
-        except Exception:
-            logger.error("Error in extracting urls from %s" % home_page_url)
+        except Exception as exp:
+            logger.error("Error in extracting urls from %s\n%s" % (home_page_url, exp))
             return None
 
         # parse html content
-        soup = BeautifulSoup(html_page, 'html.parser')
+        try:
+            soup = BeautifulSoup(html_page, 'html.parser')
+        except Exception as exp:
+            logger.error("Error in parsing HTML for urls from %s\n%s" % (home_page_url, exp))
+            return None
+
         host_name_list = list()
         url_path_list = list()
 
@@ -334,19 +339,24 @@ class Manager(object):
 
     @staticmethod
     def generate_license(license_name, project_name, organization, year):
-        templates = ['agpl3', 'apache', 'bsd', 'bsd3', 'cc0', 'cc_by', 'cc_by_nc', 'cc_by_nc_nd',
-                     'cc_by_nc_sa', 'cc_by_nd', 'cc_by_sa', 'cddl', 'epl', 'gpl2', 'gpl3', 'isc', 'lgpl',
-                     'mit', 'mpl', 'unlicense', 'wtfpl', 'x11', 'zlib']
-        license_name = str(license_name).lower().replace("-", "_")
-        try:
-            template_name = next(license for license in templates if license in license_name)
-        except StopIteration:
-            template_name = None
+        if all((license_name, project_name, organization, year)):
+            templates = ['agpl3', 'apache', 'bsd', 'bsd3', 'cc0', 'cc_by', 'cc_by_nc', 'cc_by_nc_nd',
+                         'cc_by_nc_sa', 'cc_by_nd', 'cc_by_sa', 'cddl', 'epl', 'gpl2', 'gpl3', 'isc', 'lgpl',
+                         'mit', 'mpl', 'unlicense', 'wtfpl', 'x11', 'zlib']
+            license_name = str(license_name).lower().replace("-", "_")
+            try:
+                template_name = next(license for license in templates if license in license_name)
+            except StopIteration:
+                template_name = None
 
-        if template_name:
-            tmpl_env = Environment(
-                loader=PackageLoader('pylicense_manager', 'templates'),
-                undefined=StrictUndefined)
-            license_template = tmpl_env.get_template(str(template_name) + ".txt")
-            license_content = license_template.render(project=project_name, organization=organization, year=year)
-            return license_content
+            if template_name:
+                tmpl_env = Environment(
+                    loader=PackageLoader('pylicense_manager', 'templates'),
+                    undefined=StrictUndefined)
+                license_template = tmpl_env.get_template(str(template_name) + ".txt")
+                license_content = license_template.render(project=project_name, organization=organization, year=year)
+                return license_content
+            else:
+                return None
+        else:
+            return None

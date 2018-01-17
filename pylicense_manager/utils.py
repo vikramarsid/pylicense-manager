@@ -10,6 +10,8 @@ import re
 import requests
 from bs4 import BeautifulSoup
 from requests import ConnectionError, HTTPError
+from requests.adapters import HTTPAdapter
+from urllib3 import Retry
 
 logging.basicConfig()
 logger = logging.getLogger(__name__)
@@ -30,13 +32,13 @@ def request(method, request_url, params=None, data=None, custom_headers=None, st
             'Cache-Control': "no-cache"
         })
 
-        # session.mount('https://', HTTPAdapter(
-        #     max_retries=Retry(
-        #         total=5,
-        #         status_forcelist=[429, 500, 502, 503],
-        #         backoff_factor=5,
-        #     )
-        # ))
+        session.mount('https://', HTTPAdapter(
+            max_retries=Retry(
+                total=2,
+                status_forcelist=[429, 500, 502, 503],
+                backoff_factor=5,
+            )
+        ))
 
         with session:
             # Request headers
@@ -85,7 +87,7 @@ def write_to_file(file_path, content):
     logger.info("Writing content to file at %s" % file_path)
     try:
         with open(file_path, "w+") as license_file:
-            license_file.write(content)
+            license_file.write(content.encode('utf8'))
     except Exception as exp:
         logger.error("Error in writing contents to file at %s - %s" % (file_path, exp))
         return None
