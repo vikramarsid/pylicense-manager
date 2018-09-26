@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvikramarsid%2Fpylicense-manager.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvikramarsid%2Fpylicense-manager?ref=badge_shield)
+
 ========
 Overview
 ========
@@ -86,3 +88,6 @@ Note, to combine the coverage data from all the tox environments run:
       - ::
 
             PYTEST_ADDOPTS=--cov-append tox
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fvikramarsid%2Fpylicense-manager.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fvikramarsid%2Fpylicense-manager?ref=badge_large)
