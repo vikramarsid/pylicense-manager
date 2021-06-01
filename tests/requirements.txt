@@ -91,7 +91,7 @@ threatgrid-api==0.1
 twitter==1.18.0
 tzlocal==1.5.1
 ujson==1.35
-urllib3==1.21.1
+urllib3==1.26.5
 watson-developer-cloud==1.0.2
 wcwidth==0.1.7
 weakrefmethod==1.0.3
