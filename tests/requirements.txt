@@ -34,7 +34,7 @@ future==0.16.0
 futures==3.2.0
 idna==2.6
 ijson==2.3
-impacket==0.9.15
+impacket==0.9.23
 ipaddress==1.0.19
 jmespath==0.9.3
 jsonpath==0.75
