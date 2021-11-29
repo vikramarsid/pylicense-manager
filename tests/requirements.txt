@@ -68,7 +68,7 @@ PySocks==1.6.8
 pysolr==3.7.0
 pytap==1.8
 python-dateutil==2.6.1
-python-ldap==2.5.2
+python-ldap==3.4.0
 python-libnmap==0.7.0
 python-magic==0.4.15
 python-whois==0.6.7
