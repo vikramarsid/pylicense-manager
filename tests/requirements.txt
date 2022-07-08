@@ -85,7 +85,7 @@ shodan==1.7.7
 six==1.11.0
 SQLAlchemy==1.2.0
 stix==1.2.0.4
-suds==0.4
+suds==1.0.0
 threatconnect==2.4.17
 threatgrid-api==0.1
 twitter==1.18.0
